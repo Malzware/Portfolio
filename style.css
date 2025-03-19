@@ -13,6 +13,29 @@
     font-family: "Apfel Grotezk", sans-serif;
 }
 
+/* Styles pour le header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Hauteur du header */
+    background-color: rgba(0, 0, 0, 0.8); /* Fond semi-transparent */
+    color: white; /* Texte blanc */
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid white; /* Trait fin blanc */
+    z-index: 1000; /* S'assurer qu'il reste au-dessus du contenu */
+}
+
+/* Ajout d'un padding en haut pour ne pas cacher le contenu sous le header */
+body {
+    padding-top: 70px;
+}
+
+
 html {
     font-size: 40px;
     line-height: 1;
@@ -143,7 +166,21 @@ ul li:hover .project-image {
     width: 100px; /* Ajuste la taille du CD si nécessaire */
 }
 
-a:focus, a:active {
-    outline: none; /* Enlève le contour sur focus */
-    color: white; /* Garde la couleur inchangée lorsqu'on clique */
+a {
+    color: white; /* Assure que les liens sont blancs par défaut */
+    text-decoration: none; /* Enlève le soulignement par défaut */
 }
+
+a:visited {
+    color: white; /* Assure que les liens visités restent blancs */
+}
+
+a:hover {
+    color: white; /* Assure que les liens restent blancs au survol */
+}
+
+a:focus, a:active {
+    color: white; /* Garde la couleur blanche lors du focus ou du clic */
+    outline: none; /* Supprime l'effet de focus par défaut */
+}
+
