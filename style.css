@@ -1,0 +1,149 @@
+/* Importer la police Apfel Grotezk */
+@font-face {
+    font-family: "Apfel Grotezk";
+    src: url("apfelGrotezk/ApfelGrotezk-Regular.woff2") format("woff2"),
+         url("apfelGrotezk/ApfelGrotezk-Regular.woff") format("woff"),
+         url("apfelGrotezk/ApfelGrotezk-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Appliquer la police globalement */
+:root {
+    font-family: "Apfel Grotezk", sans-serif;
+}
+
+html {
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-front);
+    background-color: black;
+    color: white;
+}
+
+/* Mise en page principale */
+.container {
+    display: flex;
+    align-items: flex-start; /* Aligne tout le contenu en haut */
+    justify-content: space-between;
+    max-width: 100%;
+    margin: auto;
+}
+
+/* Titre à gauche */
+.title {
+    width: 100%; /* Permet à l'élément de s'étendre sur toute la largeur disponible */
+    text-align: left;
+    font-weight: bold;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Contenu à gauche */
+.left-section {
+    width: 40%; /* Vous pouvez augmenter cette valeur si nécessaire */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Contenu à droite */
+.right-section {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Style pour chaque élément de la liste (projet) */
+ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 320px; /* Espacement de base entre le projet et la date */
+    position: relative; /* Nécessaire pour positionner l'image */
+    transition: transform 0.5s; /* Transition fluide pour le flip */
+}
+
+/* Style pour l'effet de flip du texte au survol */
+ul li:hover .project-text {
+    transform: rotateX(180deg); /* Flip vertical (sur l'axe X) */
+    transition: transform 0.5s; /* Transition du flip */
+}
+
+/* La classe qui contient le texte du projet */
+.project-text {
+    display: block;
+    transition: transform 0.5s;
+    width: 400px;
+}
+
+/* Image apparaissant à gauche lors du hover */
+ul li:hover .project-image {
+    opacity: 1; /* Rendre l'image visible */
+    left: -200px; /* Déplace l'image à gauche */
+}
+
+/* L'image qui apparaîtra à gauche lors du hover */
+.project-image {
+    position: absolute;
+    left: -500px;
+    top: 0;
+    opacity: 0; /* L'image est invisible au départ */
+    width: 150px;
+}
+
+/* Image qui apparaîtra à gauche lors du hover */
+.project-image img {
+    width: 100%; /* Ajuste la taille de l'image à 100% de la largeur de son conteneur */
+    height: auto; /* Conserve les proportions */
+    border-radius: 10px;
+}
+
+
+/* Media query pour les écrans plus petits */
+@media (max-width: 768px) {
+    ul li {
+        gap: 15px; /* Réduit l'espacement sur les petits écrans */
+    }
+
+    /* Ajustement du flip pour les petits écrans */
+    ul li:hover .project-text {
+        transform: rotateX(180deg); /* Flip pour petits écrans aussi */
+    }
+}
+
+/* Media query pour les très petits écrans */
+@media (max-width: 480px) {
+    ul li {
+        gap: 10px; /* Encore plus réduit pour les petits téléphones */
+    }
+
+    /* Ajustement du flip pour les très petits écrans */
+    ul li:hover .project-text {
+        transform: rotateX(180deg); /* Flip sur les très petits écrans */
+    }
+}
+
+/* Style pour les dates */
+.date {
+    font-size: 0.9em; /* Taille plus petite pour la date */
+    padding: 0.2em 0.4em;
+    border-radius: 5px;
+    margin-left: -150px; /* Ajustez la valeur pour modifier l'espacement */
+}
+
+.cd-container {
+    margin-top: 20px;
+}
+
+.cd {
+    width: 100px; /* Ajuste la taille du CD si nécessaire */
+}
+
+a:focus, a:active {
+    outline: none; /* Enlève le contour sur focus */
+    color: white; /* Garde la couleur inchangée lorsqu'on clique */
+}

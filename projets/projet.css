@@ -1,0 +1,151 @@
+/* Importer la police Apfel Grotezk */
+@font-face {
+    font-family: "Apfel Grotezk";
+    src: url("apfelGrotezk/ApfelGrotezk-Regular.woff2") format("woff2"),
+        url("apfelGrotezk/ApfelGrotezk-Regular.woff") format("woff"),
+        url("apfelGrotezk/ApfelGrotezk-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Appliquer la police globalement */
+:root {
+    font-family: "Apfel Grotezk", sans-serif;
+}
+
+html,
+body {
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: white;
+    background-color: black;
+    margin: 0;
+    height: 100%;
+    padding: 3px;
+    /* Empêche le scrolling horizontal uniquement */
+}
+
+h1 {
+    font-size: 40px;
+    margin: 0;
+}
+
+h2 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+p {
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0em;
+    margin-bottom: 0px;
+}
+
+/* Mise en page principale */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Contenu à droite */
+.right-section {
+    width: 20%;
+    height: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    /* Fixe par rapport à la fenêtre */
+    padding-left: 5px;
+    top: 0;
+    right: 0;
+    /* Ajout d'un padding pour éviter que le contenu ne colle aux bords */
+    overflow: hidden;
+    /* Positionnement du texte en bas */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Aligne le contenu en bas */
+    padding-bottom: 5px;
+
+}
+
+.left-section {
+    width: 80%;
+    min-height: 100vh; /* Au minimum, hauteur d'écran complète */
+    margin-right: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* Active le scroll */
+    scroll-behavior: smooth; /* Rend le scroll plus fluide */
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}
+
+/* La première image prend tout l'écran */
+.image.first-image {
+    width: 100%;
+    height: 100vh; /* Hauteur complète de l'écran */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+/* Les autres images prennent chacune une hauteur normale */
+.image.other-images {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px; /* Bord arrondi */
+    margin-bottom: 5px; /* Ajoutez un espacement en bas si nécessaire */
+}
+
+.image.other-images img {
+    width: 100%;
+    object-position: center;
+    border-radius: 15px; /* Applique aussi le border-radius à l’image */
+}
+
+/* Menu */
+.menu {
+    position: absolute; /* Position absolue par rapport à la section right-section */
+    top: 10px; /* Espace du haut */
+    right: 10px; /* Espace de la droite */
+    font-size: 30px;
+}
+
+/* Conteneur pour la vidéo */
+.video-container {
+    width: 80%;  /* Par exemple, la largeur de la vidéo */
+    position: fixed;  /* Fixe la vidéo */
+    top: 10px;      /* Décale la vidéo 100px vers le bas depuis le haut */
+    left: 0;          /* Colle la vidéo au bord gauche */
+    z-index: 10;      /* Pour s'assurer qu'elle est au-dessus des autres éléments */
+    margin-bottom: 0;
+}
+
+/* Style de l'iframe vidéo */
+.video-container iframe {
+    width: 100%;
+    height: 125vh;  /* Hauteur de la vidéo définie à 120% de la fenêtre */
+    object-fit: cover;  /* Pour que la vidéo couvre l'espace sans déformation */
+    object-position: center;  /* Positionne l'objet au centre */
+    border-radius: 15px;  /* Bord arrondi */
+}
+
+.image.other-images {
+    width: 100%; /* Ajuste la largeur */
+    display: block; /* Évite les espaces blancs autour */
+    border-radius: 15px; /* Applique un arrondi aux images */
+}
