@@ -14,5 +14,11 @@ module.exports = {
       .options({
         name: 'videos/[name].[hash:8].[ext]' // Gère les fichiers vidéo avec un hash unique
       });
+  },
+
+  devServer: {
+    host: '0.0.0.0',  // Permet à l'application d'écouter sur toutes les interfaces
+    port: 8080,  // Assure-toi que c'est le même port que celui sur lequel ton application écoute
+    disableHostCheck: true,  // Désactive la vérification de l'hôte (utile parfois en dev)
   }
 };
