@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from './views/HomePage.vue';  // Page d'accueil
-import Project1 from './views/Project1.vue';  // Page spécifique pour Project1
-import Project2 from './views/Project2.vue';  // Page spécifique pour Project2
-import Project3 from './views/Project3.vue';  // Page spécifique pour Project3
-import Project4 from './views/Project4.vue';  // Page spécifique pour Project4
-import Project5 from './views/Project5.vue';  // Page spécifique pour Project4
-import Project6 from './views/Project6.vue';  // Page spécifique pour Project4
-import Project7 from './views/Project7.vue';  // Page spécifique pour Project4
-import Project8 from './views/Project8.vue';  // Page spécifique pour Project4
-import Project9 from './views/Project9.vue';  // Page spécifique pour Project4
+
+const HomePage = () => import('./views/HomePage.vue'); // Page d'accueil
+const Project1 = () => import('./views/Project1.vue');  // Page spécifique pour Project1
+const Project2 = () => import('./views/Project2.vue');  // Page spécifique pour Project2
+const Project3 = () => import('./views/Project3.vue');  // Page spécifique pour Project3
+const Project4 = () => import('./views/Project4.vue');  // Page spécifique pour Project4
+const Project5 = () => import('./views/Project5.vue');  // Page spécifique pour Project5
+const Project6 = () => import('./views/Project6.vue');  // Page spécifique pour Project6
+const Project7 = () => import('./views/Project7.vue');  // Page spécifique pour Project7
+const Project8 = () => import('./views/Project8.vue');  // Page spécifique pour Project8
+const Project9 = () => import('./views/Project9.vue');  // Page spécifique pour Project9
 
 const routes = [
   {
