@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-const HomePage = () => import('./views/HomePage.vue'); // Page d'accueil
-const Project1 = () => import('./views/Project1.vue');  // Page spécifique pour Project1
-const Project2 = () => import('./views/Project2.vue');  // Page spécifique pour Project2
-const Project3 = () => import('./views/Project3.vue');  // Page spécifique pour Project3
-const Project4 = () => import('./views/Project4.vue');  // Page spécifique pour Project4
-const Project5 = () => import('./views/Project5.vue');  // Page spécifique pour Project5
-const Project6 = () => import('./views/Project6.vue');  // Page spécifique pour Project6
-const Project7 = () => import('./views/Project7.vue');  // Page spécifique pour Project7
-const Project8 = () => import('./views/Project8.vue');  // Page spécifique pour Project8
-const Project9 = () => import('./views/Project9.vue');  // Page spécifique pour Project9
+// Import dynamique avec webpackPrefetch
+const HomePage = () => import(/* webpackPrefetch: true */ './views/HomePage.vue');
+const Project1 = () => import(/* webpackPrefetch: true */ './views/Project1.vue');
+const Project2 = () => import(/* webpackPrefetch: true */ './views/Project2.vue');
+const Project3 = () => import(/* webpackPrefetch: true */ './views/Project3.vue');
+const Project4 = () => import(/* webpackPrefetch: true */ './views/Project4.vue');
+const Project5 = () => import(/* webpackPrefetch: true */ './views/Project5.vue');
+const Project6 = () => import(/* webpackPrefetch: true */ './views/Project6.vue');
+const Project7 = () => import(/* webpackPrefetch: true */ './views/Project7.vue');
+const Project8 = () => import(/* webpackPrefetch: true */ './views/Project8.vue');
+const Project9 = () => import(/* webpackPrefetch: true */ './views/Project9.vue');
 
 const routes = [
   {
@@ -62,7 +63,6 @@ const routes = [
     name: 'project9',
     component: Project9,
   },
-  // Ajoute des routes supplémentaires si tu as plus de projets
 ];
 
 const router = createRouter({

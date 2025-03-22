@@ -5,6 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+
+    <!-- Préchargement des fichiers critiques -->
+    <link rel="preload" href="<%= BASE_URL %>js/critical-script.js" as="script">
+    <link rel="preload" href="<%= BASE_URL %>css/critical-style.css" as="style">
+
+    <!-- Précharger d'autres ressources que l'on prévoit d'utiliser prochainement -->
+    <link rel="prefetch" href="<%= BASE_URL %>js/other-resource.js">
+    <link rel="prefetch" href="<%= BASE_URL %>css/other-style.css">
+
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
