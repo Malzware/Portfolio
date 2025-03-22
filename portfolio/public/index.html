@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- Utiliser le BASE_URL pour un chemin correct dans un sous-répertoire -->
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>Portfolio</title>
-    <!-- Chemin vers les fichiers CSS générés -->
-    <link href="<%= BASE_URL %>css/app.4e7683d8.css" rel="stylesheet">
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but Portfolio doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <!-- Point d'ancrage pour Vue.js -->
     <div id="app"></div>
-    <!-- Injection des fichiers JavaScript générés -->
-    <script src="<%= BASE_URL %>js/chunk-vendors.71770456.js"></script>
-    <script src="<%= BASE_URL %>js/app.666be0dc.js"></script>
+    <!-- built files will be auto injected -->
   </body>
 </html>
