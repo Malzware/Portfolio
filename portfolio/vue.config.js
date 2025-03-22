@@ -17,8 +17,9 @@ module.exports = {
   },
 
   devServer: {
-    host: '0.0.0.0',  // Permet à l'application d'écouter sur toutes les interfaces
-    port: 8080,  // Assure-toi que c'est le même port que celui sur lequel ton application écoute
-    disableHostCheck: true,  // Désactive la vérification de l'hôte (utile parfois en dev)
+    host: '0.0.0.0',  // Écoute sur toutes les interfaces réseau
+    port: 8080,        // Assure-toi que ce port est correct
+    allowedHosts: "all", // Autorise toutes les connexions (remplace disableHostCheck)
+    historyApiFallback: true, // Corrige les problèmes de rafraîchissement sur Vue Router en mode history
   }
 };
