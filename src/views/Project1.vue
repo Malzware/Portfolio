@@ -111,7 +111,7 @@ export default {
   width: 100%;
   max-height: 500px;
   justify-content: space-between;
-  gap: 120px;
+  gap: 50px;
   padding: 0px;
 }
 
@@ -165,6 +165,7 @@ export default {
   justify-content: flex-end;  /* Alignement à droite */
   width: 100%;  /* Ajouté pour occuper toute la largeur */
   align-self: flex-start;
+  padding: 200px;
 }
 
 .right-column .text-container {
