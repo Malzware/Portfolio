@@ -172,6 +172,7 @@ body {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  padding: 20px;
 }
 
 .menu-link {

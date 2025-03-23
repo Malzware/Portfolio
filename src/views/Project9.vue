@@ -160,6 +160,7 @@ export default {
   justify-content: flex-end;
   width: 100%;
   align-self: flex-start;
+  padding: 20px;
 }
 
 .right-column .text-container {

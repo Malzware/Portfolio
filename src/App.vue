@@ -7,7 +7,28 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      selectedImage: { src: require('@/assets/poke5.png') },
+      showInfo: false, // État pour afficher ou masquer le contenu de la colonne gauche
+    };
+  },
+  methods: {
+    toggleInfo() {
+      this.showInfo = !this.showInfo;
+    }
+  },
+watch: {
+  $route() {
+    // Réinitialiser le défilement à chaque changement de route
+    window.scrollTo(0, 0);
+  }
+},
+  mounted() {
+    // Réinitialiser le défilement lors du premier chargement du composant
+    window.scrollTo(0, 0);
+  }
 };
 </script>
 

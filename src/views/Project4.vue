@@ -161,6 +161,7 @@ export default {
   justify-content: flex-end;  /* Alignement à droite */
   width: 100%;  /* Ajouté pour occuper toute la largeur */
   align-self: flex-start;
+  padding: 20px;
 }
 
 .right-column .text-container {
