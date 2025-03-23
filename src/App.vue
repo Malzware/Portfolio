@@ -1,52 +1,118 @@
+<!-- App.vue -->
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-const isLoading = ref(true); // Charge dès le départ
-const route = useRoute();
+const isLoading = ref(true);
+const allPagesLoaded = ref(false);
+const router = useRouter();
 
-watch(route, () => {
-  isLoading.value = true;
-  window.scrollTo(0, 0);
-  waitForImages();
-});
+onMounted(async () => {
+  // Définir les routes à précharger (toutes les routes de votre application)
+  // Vous devrez ajuster cette liste selon la structure de votre application
+  const routesToPreload = router.getRoutes().map(route => route.path);
+  
+  // Fonction pour précharger une route
+  const preloadRoute = async (path) => {
+    try {
+      // Accéder aux composants de la route sans changer l'URL actuelle
+      const matchedComponents = router.resolve(path).matched
+        .flatMap(record => Object.values(record.components));
+      
+      // Précharger les composants
+      await Promise.all(matchedComponents.map(component => {
+        if (typeof component === 'function') {
+          return component();
+        }
+        return Promise.resolve(component);
+      }));
+    } catch (error) {
+      console.warn(`Erreur lors du préchargement de ${path}:`, error);
+    }
+  };
 
-onMounted(() => {
-  window.scrollTo(0, 0);
-  waitForImages();
-});
-
-// Fonction pour attendre que toutes les images soient chargées
-const waitForImages = () => {
-  const images = document.querySelectorAll("img");
-  let loadedCount = 0;
-  if (images.length === 0) {
+  try {
+    // Précharger toutes les routes
+    await Promise.all(routesToPreload.map(preloadRoute));
+    
+    // Attendre que le DOM soit complètement chargé
+    if (document.readyState !== 'complete') {
+      await new Promise(resolve => {
+        document.onreadystatechange = () => {
+          if (document.readyState === 'complete') {
+            resolve();
+          }
+        };
+      });
+    }
+    
+    // Attendre que toutes les images et polices soient chargées
+    await Promise.all([
+      // Images
+      new Promise(resolve => {
+        const images = document.querySelectorAll('img');
+        if (images.length === 0) resolve();
+        
+        let loadedImages = 0;
+        images.forEach(img => {
+          if (img.complete) {
+            loadedImages++;
+            if (loadedImages === images.length) resolve();
+          } else {
+            img.onload = img.onerror = () => {
+              loadedImages++;
+              if (loadedImages === images.length) resolve();
+            };
+          }
+        });
+      }),
+      
+      // Polices
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+      
+      // Délai minimum
+      new Promise(resolve => setTimeout(resolve, 1000))
+    ]);
+    
+    // Marquer le site comme entièrement chargé
+    allPagesLoaded.value = true;
+    
+    // Désactiver le loader avec une légère transition
+    await nextTick();
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 300);
+    
+  } catch (error) {
+    console.error("Erreur lors du préchargement du site:", error);
     isLoading.value = false;
-    return;
   }
   
-  images.forEach(img => {
-    if (img.complete) {
-      loadedCount++;
-    } else {
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === images.length) {
-          isLoading.value = false;
-        }
-      };
-    }
-  });
+  // Sécurité : Désactiver le loader après 8 secondes quoi qu'il arrive
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 8000);
+});
 
-  // Sécurité : Si au bout de 3s, certaines images ne sont pas chargées, on désactive le loader
-  setTimeout(() => isLoading.value = false, 3000);
+// Désactiver le loader lors des changements de route puisque tout est déjà chargé
+const handleRouteChange = () => {
+  if (allPagesLoaded.value) {
+    window.scrollTo(0, 0);
+    // Pas besoin de recharger le loader
+  }
 };
+
+// Ajouter l'écouteur d'événement de navigation
+router.beforeEach((to, from, next) => {
+  handleRouteChange();
+  next();
+});
 </script>
 
 <template>
-  <div id="app" class="background">
+  <div id="app">
     <!-- Loader Vue Loading Overlay -->
     <Loading 
       v-model:active="isLoading" 
@@ -57,9 +123,9 @@ const waitForImages = () => {
       :opacity="1"
       :loader="'bars'"
     />
-
-    <!-- Contenu de la page -->
-    <router-view />
+    
+    <!-- Contenu de l'application -->
+    <router-view v-show="!isLoading" />
   </div>
 </template>
 
@@ -71,72 +137,36 @@ const waitForImages = () => {
   box-sizing: border-box;
 }
 
-/* Fond noir */
+/* Styles globaux */
 body {
   background-color: black;
   color: white;
   font-family: 'apfelGrotezk', monospace;
-  height: 100%;
-  overflow-y: auto;
+  height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Barre de chargement */
-.loading-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, #ffcc00, #ff9900);
-  animation: loading 0.5s ease-in-out infinite alternate;
+/* Animation de transition du loader */
+.vl-overlay {
+  transition: opacity 0.3s ease-out;
 }
 
-/* Animation de la barre de chargement */
-@keyframes loading {
+/* Cache le clignotement pendant les transitions de page */
+.router-view-leave-active {
+  display: none;
+}
+
+/* Animation d'entrée pour le contenu */
+.router-view-enter-active {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
   from {
-    width: 0%;
+    opacity: 0;
   }
   to {
-    width: 100%;
-  }
-}
-</style>
-
-<style>
-/* Réinitialisation des styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Fond noir */
-body {
-  background-color: black;
-  color: white;
-  font-family: 'apfelGrotezk', monospace;
-  height: 100%;
-  overflow-y: auto;
-}
-
-/* Barre de chargement */
-.loading-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, #ffcc00, #ff9900);
-  animation: loading 0.5s ease-in-out infinite alternate;
-}
-
-/* Animation de la barre de chargement */
-@keyframes loading {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
+    opacity: 1;
   }
 }
 </style>
