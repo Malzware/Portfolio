@@ -105,13 +105,13 @@ export default {
 
 .image-full {
   width: 100%;
-  height: 100%; /* Utilisation de la hauteur de l'écran complet */
-  overflow: hidden; /* Empêche le débordement */
+  max-height: 100vh;
+  margin-bottom: 12px;
 }
 
 .full-image {
   width: 100%;
-  height: 95vh;
+  height: 96vh;
   object-fit: cover;
 }
 
@@ -157,7 +157,7 @@ export default {
   flex: 3;
   padding-top: 20px;
   padding-left: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Espace entre les éléments pour pousser le texte en bas */

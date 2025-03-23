@@ -180,15 +180,15 @@ body {
   flex: 3;
   padding-top: 20px;
   padding-left: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between; /* Espace entre les éléments pour pousser le texte en bas */
   height: 100vh;
   position: sticky;
   top: 0;
   overflow-y: auto;
-  max-width: 70%; /* Assure une largeur constante */
+  max-width: 70%;
 }
 
 .menu-container {

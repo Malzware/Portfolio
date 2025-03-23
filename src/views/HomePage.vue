@@ -58,75 +58,20 @@ export default {
         { id: 8, src: require("@/assets/pizza-logo.png") },
         { id: 9, src: require("@/assets/poke5.png") },
       ],
-      projectPositions: []
+      projectPositions: [
+        { left: "10%", top: "20%", rotation: -5 },
+        { left: "30%", top: "10%", rotation: 3 },
+        { left: "50%", top: "15%", rotation: -2 },
+        { left: "70%", top: "25%", rotation: 4 },
+        { left: "20%", top: "50%", rotation: -3 },
+        { left: "40%", top: "60%", rotation: 5 },
+        { left: "60%", top: "55%", rotation: -1 },
+        { left: "80%", top: "70%", rotation: 2 },
+        { left: "50%", top: "80%", rotation: -4 },
+      ]
     };
   },
-  mounted() {
-    this.generatePositions();
-    // Recalculer les positions lors du redimensionnement de la fenêtre
-    window.addEventListener('resize', this.generatePositions);
-  },
-  beforeUnmount() {
-    // Nettoyer l'écouteur d'événement
-    window.removeEventListener('resize', this.generatePositions);
-  },
   methods: {
-    generatePositions() {
-      // Définir une grille pour la disposition
-      const gridRows = 3;
-      const gridCols = 4;
-      
-      // Créer un tableau de toutes les positions possibles
-      let positions = [];
-      for (let row = 0; row < gridRows; row++) {
-        for (let col = 0; col < gridCols; col++) {
-          positions.push({
-            row,
-            col
-          });
-        }
-      }
-      
-      // Mélanger les positions pour plus d'aléatoire
-      positions = this.shuffleArray(positions);
-      
-      // Assigner une position à chaque projet
-      this.projectPositions = [];
-      for (let i = 0; i < this.images.length; i++) {
-        if (i < positions.length) {
-          const pos = positions[i];
-          
-          // Calculer la position en pourcentage avec un peu de variation
-          const baseX = (pos.col / gridCols) * 100;
-          const baseY = (pos.row / gridRows) * 100;
-          
-          // Ajouter une variation aléatoire mais contrôlée
-          const variationX = Math.random() * 10 - 5; // -5% à +5%
-          const variationY = Math.random() * 10 - 5; // -5% à +5%
-          
-          // S'assurer que les positions restent dans des limites raisonnables
-          const x = Math.min(Math.max(baseX + variationX, 5), 95);
-          const y = Math.min(Math.max(baseY + variationY, 5), 95);
-          
-          // Rotation aléatoire
-          const rotation = Math.floor(Math.random() * 10 - 5); // -5° à +5°
-          
-          this.projectPositions.push({
-            left: `${x}%`,
-            top: `${y}%`,
-            rotation: rotation
-          });
-        }
-      }
-    },
-    shuffleArray(array) {
-      const result = [...array];
-      for (let i = result.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [result[i], result[j]] = [result[j], result[i]];
-      }
-      return result;
-    },
     getProjectPosition(index) {
       if (!this.projectPositions[index]) return {};
       
@@ -147,6 +92,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 /* Styles globaux */

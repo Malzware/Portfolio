@@ -106,30 +106,32 @@ export default {
   min-height: 100vh;
 }
 
-.left-column {
-  flex: 7;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 0 20px 20px;
-  overflow-y: auto;
-  width: 70%;
-}
-
 .images-container {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
+.left-column {
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  min-width: 70%; /* Ajoute une largeur minimale pour éviter le décalage */
+}
+
 .image-full {
-  margin-bottom: 20px;
-  height: 100vh;
+  width: 100%;
+  max-height: 100vh;
+  margin-bottom: 12px;
 }
 
 .full-image {
   width: 100%;
-  height: 100vh;
-  max-height: 95vh;
+  height: 96vh;
   object-fit: contain;
 }
 
@@ -165,15 +167,17 @@ export default {
 
 .right-column {
   flex: 3;
-  padding: 20px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; /* Espace entre les éléments pour pousser le texte en bas */
   height: 100vh;
   position: sticky;
   top: 0;
   overflow-y: auto;
-  max-width: 30%;
+  max-width: 70%;
 }
 
 .right-column .menu-container {

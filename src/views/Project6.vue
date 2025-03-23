@@ -171,7 +171,7 @@ export default {
   flex: 3;
   padding-top: 20px;
   padding-left: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Espace entre les éléments pour pousser le texte en bas */
