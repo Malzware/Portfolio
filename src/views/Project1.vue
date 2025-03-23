@@ -109,15 +109,13 @@ export default {
 .image-small {
   display: flex;
   width: 100%;
-  max-height: 500px;
+  min-height: 500px;
   justify-content: space-between;
-  gap: 50px;
-  padding: 0px;
+  padding: 0;
 }
 
 .small-image {
-  width: 100%;
-  height: auto;
+  height: 500px;
   object-fit: contain;
 }
 
