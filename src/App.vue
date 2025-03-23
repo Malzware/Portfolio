@@ -3,7 +3,7 @@ import { ref, watch, onMounted } from 'vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 import { useRoute } from 'vue-router';
-const isLoading = ref(true); // Charge dès le départ
+const isLoading = ref(true); 
 const route = useRoute();
 watch(route, () => {
   isLoading.value = true;
@@ -14,7 +14,7 @@ onMounted(() => {
   window.scrollTo(0, 0);
   waitForImages();
 });
-// Fonction pour attendre que toutes les images soient chargées
+
 const waitForImages = () => {
   const images = document.querySelectorAll("img");
   let loadedCount = 0;
@@ -35,7 +35,7 @@ const waitForImages = () => {
       };
     }
   });
-  // Sécurité : Si au bout de 3s, certaines images ne sont pas chargées, on désactive le loader
+
   setTimeout(() => isLoading.value = false, 3000);
 };
 </script>
@@ -56,7 +56,7 @@ const waitForImages = () => {
   </div>
 </template>
 <style>
-/* Réinitialisation des styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -70,7 +70,6 @@ body {
   height: 100%;
   overflow-y: auto;
 }
-/ Barre de chargement /
 .loading-bar {
   position: fixed;
   top: 0;
@@ -80,7 +79,7 @@ body {
   background: linear-gradient(90deg, #ffcc00, #ff9900);
   animation: loading 0.5s ease-in-out infinite alternate;
 }
-/ Animation de la barre de chargement /
+
 @keyframes loading {
   from {
     width: 0%;
@@ -91,13 +90,13 @@ body {
 }
 </style>
 <style>
-/ Réinitialisation des styles */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-/* Fond noir /
+
 body {
   background-color: black;
   color: white;
@@ -105,7 +104,7 @@ body {
   height: 100%;
   overflow-y: auto;
 }
-/ Barre de chargement /
+
 .loading-bar {
   position: fixed;
   top: 0;
@@ -115,7 +114,7 @@ body {
   background: linear-gradient(90deg, #ffcc00, #ff9900);
   animation: loading 0.5s ease-in-out infinite alternate;
 }
-/ Animation de la barre de chargement */
+
 @keyframes loading {
   from {
     width: 0%;
