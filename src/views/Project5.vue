@@ -29,7 +29,7 @@
       <!-- Colonne droite -->
       <div class="right-column">
         <div class="menu-container">
-          <router-link to="/" class="menu-link">Menu</router-link> <!-- Lien vers la page d'accueil -->
+<a href="#" class="menu-link" @click.prevent="navigateToProjects">Menu</a>
         </div>
         <div class="text-container">
           <div class="text-block">
@@ -46,15 +46,32 @@
 <script>
 export default {
   name: 'App',
-  data() {
-    return {
-      selectedImage: { src: require('@/assets/sleep1-ps.png') },
-      showInfo: false, // État pour afficher ou masquer le contenu de la colonne gauche
-    };
-  },
   methods: {
     toggleInfo() {
       this.showInfo = !this.showInfo;
+    },
+    navigateToProjects() {
+      // Option 1: Si vous êtes déjà sur la page d'accueil, faire défiler vers la section des projets
+      if (this.$route.path === '/') {
+        const projectsSection = document.querySelector('.projects-section');
+        if (projectsSection) {
+          projectsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      } 
+      // Option 2: Si vous êtes sur une autre page, naviguer vers la page d'accueil et défiler
+      else {
+        this.$router.push('/').then(() => {
+          // Attendre que la navigation soit terminée
+          this.$nextTick(() => {
+            setTimeout(() => {
+              const projectsSection = document.querySelector('.projects-section');
+              if (projectsSection) {
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100); // Un petit délai pour s'assurer que le DOM est bien chargé
+          });
+        });
+      }
     }
   }
 };
