@@ -1,83 +1,46 @@
-<!-- App.vue -->
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 import { useRoute } from 'vue-router';
-
-const isLoading = ref(true);
+const isLoading = ref(true); // Charge dès le départ
 const route = useRoute();
-
-// Surveiller les changements de route
 watch(route, () => {
   isLoading.value = true;
   window.scrollTo(0, 0);
-  waitForPageLoad();
+  waitForImages();
 });
-
 onMounted(() => {
   window.scrollTo(0, 0);
-  waitForPageLoad();
+  waitForImages();
 });
-
-// Fonction pour attendre le chargement complet de la page
-const waitForPageLoad = () => {
-  // Attendre que le DOM soit complètement chargé
-  document.onreadystatechange = () => {
-    if (document.readyState === 'complete') {
-      // Attendre que toutes les ressources soient chargées
-      Promise.all([
-        // Attendre que toutes les images soient chargées
-        new Promise(resolve => {
-          const images = document.querySelectorAll('img');
-          if (images.length === 0) resolve();
-          
-          let loadedImages = 0;
-          images.forEach(img => {
-            if (img.complete) {
-              loadedImages++;
-              if (loadedImages === images.length) resolve();
-            } else {
-              img.onload = () => {
-                loadedImages++;
-                if (loadedImages === images.length) resolve();
-              };
-              img.onerror = () => {
-                loadedImages++;
-                if (loadedImages === images.length) resolve();
-              };
-            }
-          });
-        }),
-        
-        // Attendre que toutes les fonts soient chargées
-        document.fonts ? document.fonts.ready : Promise.resolve(),
-        
-        // Attendre un délai minimum pour éviter un flash du loader
-        new Promise(resolve => setTimeout(resolve, 800))
-      ])
-      .then(() => {
-        // Animation de sortie du loader
-        setTimeout(() => {
-          isLoading.value = false;
-        }, 200);
-      })
-      .catch(() => {
-        // Sécurité : Si un problème survient, on désactive quand même le loader
-        isLoading.value = false;
-      });
-    }
-  };
-  
-  // Protection : Si après 5 secondes le loader est toujours actif, on le désactive
-  setTimeout(() => {
+// Fonction pour attendre que toutes les images soient chargées
+const waitForImages = () => {
+  const images = document.querySelectorAll("img");
+  let loadedCount = 0;
+  if (images.length === 0) {
     isLoading.value = false;
-  }, 5000);
+    return;
+  }
+
+  images.forEach(img => {
+    if (img.complete) {
+      loadedCount++;
+    } else {
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === images.length) {
+          isLoading.value = false;
+        }
+      };
+    }
+  });
+  // Sécurité : Si au bout de 3s, certaines images ne sont pas chargées, on désactive le loader
+  setTimeout(() => isLoading.value = false, 3000);
 };
 </script>
-
 <template>
-  <div id="app">
+  <div id="app" class="background">
     <!-- Loader Vue Loading Overlay -->
     <Loading 
       v-model:active="isLoading" 
@@ -88,12 +51,10 @@ const waitForPageLoad = () => {
       :opacity="1"
       :loader="'bars'"
     />
-    
-    <!-- Contenu de l'application -->
-    <router-view v-show="!isLoading" />
+    <!-- Contenu de la page -->
+    <router-view />
   </div>
 </template>
-
 <style>
 /* Réinitialisation des styles */
 * {
@@ -102,31 +63,65 @@ const waitForPageLoad = () => {
   box-sizing: border-box;
 }
 
-/* Styles globaux */
 body {
   background-color: black;
   color: white;
   font-family: 'apfelGrotezk', monospace;
-  height: 100vh;
-  overflow-x: hidden;
+  height: 100%;
+  overflow-y: auto;
 }
-
-/* Animation de transition du loader */
-.vl-overlay {
-  transition: opacity 0.3s ease-out;
+/ Barre de chargement /
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  animation: loading 0.5s ease-in-out infinite alternate;
 }
-
-/* Animation d'entrée pour le contenu */
-.router-view-enter-active {
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
+/ Animation de la barre de chargement /
+@keyframes loading {
   from {
-    opacity: 0;
+    width: 0%;
   }
   to {
-    opacity: 1;
+    width: 100%;
+  }
+}
+</style>
+<style>
+/ Réinitialisation des styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Fond noir /
+body {
+  background-color: black;
+  color: white;
+  font-family: 'apfelGrotezk', monospace;
+  height: 100%;
+  overflow-y: auto;
+}
+/ Barre de chargement /
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  animation: loading 0.5s ease-in-out infinite alternate;
+}
+/ Animation de la barre de chargement */
+@keyframes loading {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
   }
 }
 </style>
