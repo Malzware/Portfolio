@@ -1,77 +1,66 @@
+<script setup>
+import { ref, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+const isLoading = ref(false);
+const route = useRoute();
+
+watch(route, () => {
+  isLoading.value = true;
+  window.scrollTo(0, 0);
+  setTimeout(() => (isLoading.value = false), 500); // Simule un chargement
+});
+
+onMounted(() => {
+  window.scrollTo(0, 0);
+});
+</script>
+
 <template>
   <div id="app" class="background">
-    <!-- Le router-view affichera le composant correspondant à la route -->
+    <!-- Barre de chargement -->
+    <div v-if="isLoading" class="loading-bar"></div>
+
+    <!-- Contenu de la page -->
     <router-view />
   </div>
 </template>
 
-<script>
-export default {
-  name: "App",
-  data() {
-    return {
-      selectedImage: { src: require('@/assets/poke5.png') },
-      showInfo: false, // État pour afficher ou masquer le contenu de la colonne gauche
-    };
-  },
-  methods: {
-    toggleInfo() {
-      this.showInfo = !this.showInfo;
-    }
-  },
-watch: {
-  $route() {
-    // Réinitialiser le défilement à chaque changement de route
-    window.scrollTo(0, 0);
-  }
-},
-  mounted() {
-    // Réinitialiser le défilement lors du premier chargement du composant
-    window.scrollTo(0, 0);
-  }
-};
-</script>
-
 <style>
-/* Réinitialisation des marges et des bordures par défaut */
+/* Réinitialisation des styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Appliquer un fond noir globalement */
+/* Fond noir */
 body {
   background-color: black;
   color: white;
-  font-family: 'apfelGrotezk', apfelGrotezk, monospace;
-  height: 100%; /* Permet au body de prendre toute la hauteur de la fenêtre */
-  overflow-y: auto; /* Permet le défilement vertical global */
+  font-family: 'apfelGrotezk', monospace;
+  height: 100%;
+  overflow-y: auto;
 }
 
-/* Colonne de gauche */
-.left-column {
-  padding: 20px;
-  overflow-y: scroll;
+/* Barre de chargement */
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  animation: loading 0.5s ease-in-out infinite alternate;
 }
 
-/* Colonne de droite */
-.right-column {
-  flex: 1;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* Animation de la barre de chargement */
+@keyframes loading {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
-
-/* Masquer la barre de défilement sur la colonne gauche (et les autres éléments avec scroll) */
-.left-column::-webkit-scrollbar {
-  display: none; /* Masque la barre de défilement sur Chrome/Safari */
-}
-
-.left-column {
-  -ms-overflow-style: none; /* Masque la barre de défilement sur IE */
-  scrollbar-width: none; /* Masque la barre de défilement sur Firefox */
-}
-
 </style>
