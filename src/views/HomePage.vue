@@ -2,9 +2,9 @@
   <div class="home-container">
     <div class=home-text>
       <p>
-        HEY, I'M VICTOR, <br>
-        WELCOME TO MY PORTFOLIO! <br>
-        HAVE A GREAT VISIT!
+          HEY 👋 I’M VICTOR,  
+          W🌍LCOME TO MY P🎨RTF💡LIO!  
+          HAVE A GREAT V✨SIT! 👨🏼‍💻
       </p>
     </div>
 

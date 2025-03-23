@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-// Import dynamique avec webpackPrefetch
-const HomePage = () => import(/* webpackPrefetch: true */ './views/HomePage.vue');
-const Project1 = () => import(/* webpackPrefetch: true */ './views/Project1.vue');
-const Project2 = () => import(/* webpackPrefetch: true */ './views/Project2.vue');
-const Project3 = () => import(/* webpackPrefetch: true */ './views/Project3.vue');
-const Project4 = () => import(/* webpackPrefetch: true */ './views/Project4.vue');
-const Project5 = () => import(/* webpackPrefetch: true */ './views/Project5.vue');
-const Project6 = () => import(/* webpackPrefetch: true */ './views/Project6.vue');
-const Project7 = () => import(/* webpackPrefetch: true */ './views/Project7.vue');
-const Project8 = () => import(/* webpackPrefetch: true */ './views/Project8.vue');
-const Project9 = () => import(/* webpackPrefetch: true */ './views/Project9.vue');
+// Import dynamique avec webpackPreload
+const HomePage = () => import(/* webpackPreload: true */ './views/HomePage.vue');
+const Project1 = () => import(/* webpackPreload: true */ './views/Project1.vue');
+const Project2 = () => import(/* webpackPreload: true */ './views/Project2.vue');
+const Project3 = () => import(/* webpackPreload: true */ './views/Project3.vue');
+const Project4 = () => import(/* webpackPreload: true */ './views/Project4.vue');
+const Project5 = () => import(/* webpackPreload: true */ './views/Project5.vue');
+const Project6 = () => import(/* webpackPreload: true */ './views/Project6.vue');
+const Project7 = () => import(/* webpackPreload: true */ './views/Project7.vue');
+const Project8 = () => import(/* webpackPreload: true */ './views/Project8.vue');
+const Project9 = () => import(/* webpackPreload: true */ './views/Project9.vue');
 
 const routes = [
   {
