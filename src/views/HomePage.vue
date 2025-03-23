@@ -26,7 +26,7 @@
           :key="`project-${index}`"
           class="project-item"
           :class="{ 'special-bg': image.id === 8 }"
-          :style="getRandomNonOverlappingPosition(index)"
+          :style="getProjectPosition(index)"
         >
           <router-link :to="'/project' + image.id" class="image-block">
             <img
@@ -58,79 +58,87 @@ export default {
         { id: 8, src: require("@/assets/pizza-logo.png") },
         { id: 9, src: require("@/assets/poke5.png") },
       ],
-      // Positions préallouées pour éviter les chevauchements
-      allocatedSpots: []
+      projectPositions: []
     };
   },
-  created() {
-    // Pré-calculer les positions non-chevauchantes
-    this.preAllocatePositions();
+  mounted() {
+    this.generatePositions();
+    // Recalculer les positions lors du redimensionnement de la fenêtre
+    window.addEventListener('resize', this.generatePositions);
+  },
+  beforeUnmount() {
+    // Nettoyer l'écouteur d'événement
+    window.removeEventListener('resize', this.generatePositions);
   },
   methods: {
-    preAllocatePositions() {
-      const itemWidth = 120; // Largeur de l'élément en pixels
-      const itemHeight = 120; // Hauteur de l'élément en pixels
-      const margin = 30; // Marge minimale entre les éléments
-      const safeWidth = itemWidth + margin;
-      const safeHeight = itemHeight + margin;
+    generatePositions() {
+      // Définir une grille pour la disposition
+      const gridRows = 3;
+      const gridCols = 4;
       
-      // Réinitialiser les positions allouées
-      this.allocatedSpots = [];
+      // Créer un tableau de toutes les positions possibles
+      let positions = [];
+      for (let row = 0; row < gridRows; row++) {
+        for (let col = 0; col < gridCols; col++) {
+          positions.push({
+            row,
+            col
+          });
+        }
+      }
       
-      // Essayer de positionner chaque élément
+      // Mélanger les positions pour plus d'aléatoire
+      positions = this.shuffleArray(positions);
+      
+      // Assigner une position à chaque projet
+      this.projectPositions = [];
       for (let i = 0; i < this.images.length; i++) {
-        let position;
-        let overlapping;
-        let attempts = 0;
-        const maxAttempts = 100; // Limite d'essais pour éviter une boucle infinie
-        
-        do {
-          // Générer une position aléatoire
-          position = {
-            left: Math.floor(Math.random() * (90 - 10) + 10) + '%', // Entre 10% et 90%
-            top: Math.floor(Math.random() * (90 - 10) + 10) + '%', // Entre 10% et 90%
-            // Conversion en nombre pour les comparaisons
-            leftNum: Math.floor(Math.random() * (90 - 10) + 10),
-            topNum: Math.floor(Math.random() * (90 - 10) + 10),
-            rotation: Math.floor(Math.random() * 10 - 5) // -5° à +5°
-          };
+        if (i < positions.length) {
+          const pos = positions[i];
           
-          // Vérifier le chevauchement avec les positions déjà allouées
-          overlapping = this.isOverlapping(position, safeWidth, safeHeight);
-          attempts++;
-        } while (overlapping && attempts < maxAttempts);
-        
-        // Ajouter la position trouvée à la liste
-        this.allocatedSpots.push(position);
+          // Calculer la position en pourcentage avec un peu de variation
+          const baseX = (pos.col / gridCols) * 100;
+          const baseY = (pos.row / gridRows) * 100;
+          
+          // Ajouter une variation aléatoire mais contrôlée
+          const variationX = Math.random() * 10 - 5; // -5% à +5%
+          const variationY = Math.random() * 10 - 5; // -5% à +5%
+          
+          // S'assurer que les positions restent dans des limites raisonnables
+          const x = Math.min(Math.max(baseX + variationX, 5), 95);
+          const y = Math.min(Math.max(baseY + variationY, 5), 95);
+          
+          // Rotation aléatoire
+          const rotation = Math.floor(Math.random() * 10 - 5); // -5° à +5°
+          
+          this.projectPositions.push({
+            left: `${x}%`,
+            top: `${y}%`,
+            rotation: rotation
+          });
+        }
       }
     },
-    isOverlapping(newPos, width, height) {
-  // Convert width and height to percentage of viewport (assuming 1000px width)
-  const minDistanceHorizontal = (width / 1000) * 100;
-  const minDistanceVertical = (height / 1000) * 100;
-  
-  for (const spot of this.allocatedSpots) {
-    const horizontalDistance = Math.abs(newPos.leftNum - spot.leftNum);
-    const verticalDistance = Math.abs(newPos.topNum - spot.topNum);
-    
-    if (horizontalDistance < minDistanceHorizontal && verticalDistance < minDistanceVertical) {
-      return true;
-    }
-  }
-  return false;
-}, // <-- Added comma here
-getRandomNonOverlappingPosition(index) {
-  if (!this.allocatedSpots[index]) return {};
-  
-  const position = this.allocatedSpots[index];
-  return {
-    position: 'absolute',
-    left: position.left,
-    top: position.top,
-    transform: `rotate(${position.rotation}deg)`,
-    zIndex: 2
-  };
-},
+    shuffleArray(array) {
+      const result = [...array];
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      return result;
+    },
+    getProjectPosition(index) {
+      if (!this.projectPositions[index]) return {};
+      
+      const position = this.projectPositions[index];
+      return {
+        position: 'absolute',
+        left: position.left,
+        top: position.top,
+        transform: `rotate(${position.rotation}deg)`,
+        zIndex: 2
+      };
+    },
     scrollToProjects() {
       this.$refs.projectsSection.scrollIntoView({ 
         behavior: 'smooth' 

@@ -123,12 +123,12 @@ export default {
 
 .image-full {
   margin-bottom: 20px;
-  max-height: 95vh;
+  height: 100vh;
 }
 
 .full-image {
   width: 100%;
-  height: auto;
+  height: 100vh;
   max-height: 95vh;
   object-fit: contain;
 }
