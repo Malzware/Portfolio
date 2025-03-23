@@ -1,25 +1,62 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 import { useRoute } from 'vue-router';
 
-const isLoading = ref(false);
+const isLoading = ref(true); // Charge dès le départ
 const route = useRoute();
 
 watch(route, () => {
   isLoading.value = true;
   window.scrollTo(0, 0);
-  setTimeout(() => (isLoading.value = false), 500); // Simule un chargement
+  waitForImages();
 });
 
 onMounted(() => {
   window.scrollTo(0, 0);
+  waitForImages();
 });
+
+// Fonction pour attendre que toutes les images soient chargées
+const waitForImages = () => {
+  const images = document.querySelectorAll("img");
+  let loadedCount = 0;
+  if (images.length === 0) {
+    isLoading.value = false;
+    return;
+  }
+  
+  images.forEach(img => {
+    if (img.complete) {
+      loadedCount++;
+    } else {
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === images.length) {
+          isLoading.value = false;
+        }
+      };
+    }
+  });
+
+  // Sécurité : Si au bout de 3s, certaines images ne sont pas chargées, on désactive le loader
+  setTimeout(() => isLoading.value = false, 3000);
+};
 </script>
 
 <template>
   <div id="app" class="background">
-    <!-- Barre de chargement -->
-    <div v-if="isLoading" class="loading-bar"></div>
+    <!-- Loader Vue Loading Overlay -->
+    <Loading 
+      v-model:active="isLoading" 
+      :can-cancel="false" 
+      :is-full-page="true"
+      :color="'#ffcc00'"
+      :background-color="'black'"
+      :opacity="1"
+      :loader="'bars'"
+    />
 
     <!-- Contenu de la page -->
     <router-view />
