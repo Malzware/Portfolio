@@ -1,6 +1,5 @@
 <template>
   <div class="portfolio-container">
-    <!-- Section d'introduction plein écran -->
     <section class="intro-section">
       <div class="intro-text">
         <p>
@@ -9,7 +8,6 @@
           HAVE A GREAT V✨SIT! 👨🏼‍💻      
         </p>
       </div>
-      <!-- Flèche de défilement -->
       <div class="scroll-arrow" @click="scrollToProjects">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7 10L12 15L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -17,9 +15,7 @@
       </div>
     </section>
 
-    <!-- Section des projets plein écran -->
     <section class="projects-section" ref="projectsSection">
-      <!-- Espace de travail pour les projets -->
       <div class="projects-workspace">
         <div
           v-for="(image, index) in images"
@@ -33,6 +29,7 @@
               :src="image.src"
               alt="Image"
               class="image"
+              loading="lazy"
               :class="{ 'contain-fit': image.id === 8 }"
             />
           </router-link>
@@ -41,6 +38,7 @@
     </section>
   </div>
 </template>
+
 
 <script>
 export default {
