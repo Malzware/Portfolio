@@ -44,6 +44,11 @@
 <script>
 export default {
   name: 'App',
+  data() {
+  return {
+      showInfo: false, // État pour afficher ou masquer le contenu de la colonne gauche
+    };
+  },
   methods: {
     toggleInfo() {
       this.showInfo = !this.showInfo;
@@ -109,7 +114,7 @@ export default {
 
 .full-image {
   width: 100%;
-  height: 94.2vh;
+  height: 96vh;
   object-fit: cover;
 }
 

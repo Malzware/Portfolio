@@ -46,29 +46,30 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      showInfo: false, // Initialement masqué
+    };
+  },
   methods: {
     toggleInfo() {
       this.showInfo = !this.showInfo;
     },
     navigateToProjects() {
-      // Option 1: Si vous êtes déjà sur la page d'accueil, faire défiler vers la section des projets
       if (this.$route.path === '/') {
         const projectsSection = document.querySelector('.projects-section');
         if (projectsSection) {
           projectsSection.scrollIntoView({ behavior: 'smooth' });
         }
-      } 
-      // Option 2: Si vous êtes sur une autre page, naviguer vers la page d'accueil et défiler
-      else {
+      } else {
         this.$router.push('/').then(() => {
-          // Attendre que la navigation soit terminée
           this.$nextTick(() => {
             setTimeout(() => {
               const projectsSection = document.querySelector('.projects-section');
               if (projectsSection) {
                 projectsSection.scrollIntoView({ behavior: 'smooth' });
               }
-            }, 100); // Un petit délai pour s'assurer que le DOM est bien chargé
+            }, 100);
           });
         });
       }
@@ -76,6 +77,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 * {
